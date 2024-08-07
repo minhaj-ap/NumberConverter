@@ -1,5 +1,6 @@
 function convert() {
   var digits = [];
+  let result;
   var number = document.getElementById("numberInput").value;
   const firstOption = document.getElementById("firstOption").value;
   const secondOption = document.getElementById("secondOption").value;
@@ -14,29 +15,45 @@ function convert() {
     octal: 8,
     hexadecimal: 16,
   };
-  while (number >= bases[secondOption]) {
-    var quotient = number % bases[secondOption];
-    number = parseInt(number / bases[secondOption]);
-    digits = [...digits, quotient];
+  const first = bases[firstOption];
+  const second = bases[secondOption];
+  if (first == 10) {
+    ConversionFromDecimal();
+  } else if (second == 10) {
+    ConvertToDecimal();
+  } else if (first == 2 && second == 8) {
+    BinaryToOctal();
   }
-  console.log(number);
-  if (number < bases[secondOption]) {
-    digits = [...digits, number];
+  function ConversionFromDecimal() {
+    while (number >= second) {
+      var quotient = number % second;
+      number = parseInt(number / second);
+      digits = [...digits, quotient];
+    }
+    if (number < second) {
+      digits = [...digits, number];
+    }
+    digits = sortDigits(digits);
+    result = digits.join("");
   }
-  console.log(number, digits, quotient);
-  digits = sortDigits(digits);
-  resultSpace.innerText = `Result:${digits.join("")}`;
+  function ConvertToDecimal() {
+    number = number.split("");
+    let numbers = sortDigits(number);
+    result = 0;
+    for (let i = 0; i < numbers.length; i++) {
+      numbers[i] = numbers[i] * first ** i;
+      result += numbers[i];
+    }
+  }
+  resultSpace.innerText = `Result:${result}`;
 }
 function sortDigits(digits) {
-  console.log(digits);
   let i = digits.length;
-  console.log(i);
   for (let j = 0; j < i - 1; j++) {
     var temp = digits[j];
     digits[j] = digits[i - 1];
     digits[i - 1] = temp;
     i--;
   }
-  console.log(digits);
   return digits;
 }
