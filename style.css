@@ -1,0 +1,44 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: sans-serif;
+}
+h1 {
+  text-align: center;
+}
+.from-container,
+.to-container {
+  display: flex;
+  margin: 1em;
+  gap: 1em;
+}
+div > p {
+  margin: 5px;
+  width: 30px;
+}
+#numberInput {
+  width: 80%;
+  font-size: 2em;
+  margin-left: 20px;
+}
+.btn-container {
+  width: 100%;
+  display: grid;
+  place-content: center;
+}
+button {
+  font-size: 1.5em;
+  margin: 1em;
+  padding: 0.5em;
+  background-color: green;
+  color: white;
+  border: 0;
+  border-radius: 4px;
+}
+#result {
+  margin-left: 0.5em;
+  font-size: 2em;
+  font-weight: 700;
+}

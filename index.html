@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Number Converter</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="./script.js"></script>
+  </head>
+  <body>
+    <main>
+      <h1>Number Converter</h1>
+      <div class="from-container">
+        <p>From:</p>
+        <select id="firstOption">
+          <option value="decimal">Decimal</option>
+          <!-- <option value="binary">Binary</option> -->
+          <!-- <option value="octal">Octal</option> -->
+          <!-- <option value="hexadecimal">Hexadecimal</option> -->
+        </select>
+      </div>
+      <div class="to-container">
+        <p>To:</p>
+        <select id="secondOption">
+          <option value="binary">Binary</option>
+          <option value="decimal">Decimal</option>
+          <option value="octal">Octal</option>
+          <!-- <option value="hexadecimal">Hexadecimal</option> -->
+        </select>
+      </div>
+      <input type="text" id="numberInput" placeholder="Enter the number" />
+      <div class="btn-container">
+        <button type="button" onclick="convert()">Convert</button>
+      </div>
+      <div id="result"></div>
+    </main>
+  </body>
+</html>
