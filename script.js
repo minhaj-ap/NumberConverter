@@ -5,6 +5,8 @@ function convert() {
   const firstOption = document.getElementById("firstOption").value;
   const secondOption = document.getElementById("secondOption").value;
   var resultSpace = document.getElementById("result");
+  var stepsSpace = document.getElementById("steps");
+  stepsSpace.innerHTML = "";
   if (isNaN(number)) {
     resultSpace.innerText = "Invalid input. Please enter a number.";
     return;
@@ -17,9 +19,10 @@ function convert() {
   };
   const first = bases[firstOption];
   const second = bases[secondOption];
+  let steps = [];
   if (first == 10) {
     ConversionFromDecimal();
-  } else if (second == 10) {
+  } else if (second == 10 || first == 8) {
     ConvertToDecimal();
   } else if (first == 2 && second == 8) {
     BinaryToOctal();
@@ -27,10 +30,12 @@ function convert() {
   function ConversionFromDecimal() {
     while (number >= second) {
       var quotient = number % second;
+      steps.push([number, quotient]);
       number = parseInt(number / second);
       digits = [...digits, quotient];
     }
     if (number < second) {
+      steps.push([number]);
       digits = [...digits, number];
     }
     digits = sortDigits(digits);
@@ -45,6 +50,20 @@ function convert() {
       result += numbers[i];
     }
   }
+
+  steps.forEach((step) => {
+    var base = document.createElement("h3");
+    base.textContent = second;
+    var number = document.createElement("p");
+    number.textContent = step[0];
+    var balance = document.createElement("span");
+    balance.textContent = step[1];
+    var container = document.createElement("div");
+    container.appendChild(base);
+    container.appendChild(number);
+    container.appendChild(balance);
+    stepsSpace.appendChild(container);
+  });
   resultSpace.innerText = `Result:${result}`;
 }
 function sortDigits(digits) {

@@ -42,3 +42,12 @@ button {
   font-size: 2em;
   font-weight: 700;
 }
+#steps div {
+  display: flex;
+  align-items: center;
+}
+#steps div p {
+  border: 2px solid;
+  border-top: 0;
+  border-right: 0;
+}
