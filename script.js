@@ -7,10 +7,6 @@ function convert() {
   var resultSpace = document.getElementById("result");
   var stepsSpace = document.getElementById("steps");
   stepsSpace.innerHTML = "";
-  if (isNaN(number)) {
-    resultSpace.innerText = "Invalid input. Please enter a number.";
-    return;
-  }
   const bases = {
     decimal: 10,
     binary: 2,
@@ -20,6 +16,13 @@ function convert() {
   const first = bases[firstOption];
   const second = bases[secondOption];
   let steps = [];
+  if (isNaN(number) && !(first == 16 || second == 16)) {
+    resultSpace.innerText = "Invalid input. Please enter a number.";
+    return;
+  }
+  if (first == 16) {
+    HexaDecimalConversion(number, first, second);
+  }
   if (first == 10) {
     ConversionFromDecimal();
   } else if (second == 10 || first == 8) {
@@ -39,7 +42,7 @@ function convert() {
       digits = [...digits, number];
     }
     digits = sortDigits(digits);
-    result = digits.join("");
+    result = numberConversionToHex(digits);
   }
   function ConvertToDecimal() {
     number = number.split("");
@@ -65,6 +68,33 @@ function convert() {
     stepsSpace.appendChild(container);
   });
   resultSpace.innerText = `Result:${result}`;
+}
+function numberConversionToHex(digits) {
+  const hexValues = {
+    0: 0,
+    1: 1,
+    2: 2,
+    3: 3,
+    4: 4,
+    5: 5,
+    6: 6,
+    7: 7,
+    8: 8,
+    9: 9,
+    10: "A",
+    11: "B",
+    12: "C",
+    13: "D",
+    14: "E",
+    15: "F",
+  };
+  digits.forEach((digit) => {
+    digits[digits.indexOf(digit)] = hexValues[digit];
+  });
+  return digits.join("");
+}
+function HexaDecimalConversion(number, first, second) {
+
 }
 function sortDigits(digits) {
   let i = digits.length;
