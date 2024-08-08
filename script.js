@@ -1,7 +1,9 @@
+let steps2 = [];
 var result;
 function convert() {
   var digits = [];
   result = null;
+  steps2 = [];
   var number = document.getElementById("numberInput").value;
   const firstOption = document.getElementById("firstOption").value;
   const secondOption = document.getElementById("secondOption").value;
@@ -22,7 +24,7 @@ function convert() {
     return;
   }
   if (first == 16) {
-    HexaDecimalConversion(number, first, second);
+    HexaDecimalConversion(number);
   }
   if (first == 10) {
     ConversionFromDecimal();
@@ -50,6 +52,7 @@ function convert() {
     let numbers = sortDigits(number);
     result = 0;
     for (let i = 0; i < numbers.length; i++) {
+      steps2.push(`${numbers[i]}x${first}^${i}=${numbers[i] * first ** i}`);
       numbers[i] = numbers[i] * first ** i;
       result += numbers[i];
     }
@@ -67,6 +70,12 @@ function convert() {
     container.appendChild(number);
     container.appendChild(balance);
     stepsSpace.appendChild(container);
+  });
+  steps2 = sortDigits(steps2);
+  steps2.forEach((step) => {
+    var text = document.createElement("h3");
+    text.textContent = step;
+    stepsSpace.appendChild(text);
   });
   resultSpace.innerText = `Result:${result}`;
 }
@@ -94,7 +103,7 @@ function numberConversionToHex(digits) {
   });
   return digits.join("");
 }
-function HexaDecimalConversion(number, first, second) {
+function HexaDecimalConversion(number) {
   const hexNumberValues = {
     0: 0,
     1: 1,
@@ -118,9 +127,9 @@ function HexaDecimalConversion(number, first, second) {
     digits[digits.indexOf(digit)] = hexNumberValues[digit];
   });
   digits = sortDigits(digits);
-  console.log(digits);
   result = 0;
   for (let i = 0; i < digits.length; i++) {
+    steps2.push(`${digits[i]}x16^${i}=${digits[i] * 16 ** i}`);
     digits[i] = digits[i] * 16 ** i;
     result += digits[i];
   }

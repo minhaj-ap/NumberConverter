@@ -42,6 +42,9 @@ button {
   font-size: 2em;
   font-weight: 700;
 }
+#steps {
+  margin-left: 1em;
+}
 #steps div {
   display: flex;
   align-items: center;
