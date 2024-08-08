@@ -1,6 +1,7 @@
+var result;
 function convert() {
   var digits = [];
-  let result;
+  result = null;
   var number = document.getElementById("numberInput").value;
   const firstOption = document.getElementById("firstOption").value;
   const secondOption = document.getElementById("secondOption").value;
@@ -25,7 +26,7 @@ function convert() {
   }
   if (first == 10) {
     ConversionFromDecimal();
-  } else if (second == 10 || first == 8) {
+  } else if ((second == 10 || first == 8) && first != 16) {
     ConvertToDecimal();
   } else if (first == 2 && second == 8) {
     BinaryToOctal();
@@ -94,7 +95,35 @@ function numberConversionToHex(digits) {
   return digits.join("");
 }
 function HexaDecimalConversion(number, first, second) {
-
+  const hexNumberValues = {
+    0: 0,
+    1: 1,
+    2: 2,
+    3: 3,
+    4: 4,
+    5: 5,
+    6: 6,
+    7: 7,
+    8: 8,
+    9: 9,
+    A: 10,
+    B: 11,
+    C: 12,
+    D: 13,
+    E: 14,
+    F: 15,
+  };
+  let digits = number.split("");
+  digits.forEach((digit) => {
+    digits[digits.indexOf(digit)] = hexNumberValues[digit];
+  });
+  digits = sortDigits(digits);
+  console.log(digits);
+  result = 0;
+  for (let i = 0; i < digits.length; i++) {
+    digits[i] = digits[i] * 16 ** i;
+    result += digits[i];
+  }
 }
 function sortDigits(digits) {
   let i = digits.length;
