@@ -25,12 +25,11 @@ function convert() {
   }
   var number ;
 var fraction;
-if(totalNumber.includes('.'){
-let integer= totalNumber.split('.')
-number = integer[0]
-fraction=integer[1]
-}else {
-number=totalNumber
+if (totalNumber.includes('.')) {
+    let integer = totalNumber.split('.');
+    number = integer[0];
+} else {
+    number = totalNumber;
 }
   if (first == 16) {
     HexaDecimalConversion(number);
