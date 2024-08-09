@@ -20,13 +20,11 @@ function convert() {
   const second = bases[secondOption];
   let steps = [];
   var number ;
-var fraction;
 if (totalNumber.includes('.')) {
     let integer = totalNumber.split('.');
-    number = integer[0];
-  fraction=integer[1]
+    number = parseInt(integer[0]);
 } else {
-    number = totalNumber;
+    number = parseInt(totalNumber);
 }
   if (isNaN(number) && !(first == 16 || second == 16)) {
     resultSpace.innerText = "Invalid input. Please enter a number.";
