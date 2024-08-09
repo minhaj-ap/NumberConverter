@@ -4,7 +4,7 @@ function convert() {
   var digits = [];
   result = null;
   steps2 = [];
-  var number = document.getElementById("numberInput").value;
+  var totalNumber = document.getElementById("numberInput").value;
   const firstOption = document.getElementById("firstOption").value;
   const secondOption = document.getElementById("secondOption").value;
   var resultSpace = document.getElementById("result");
@@ -23,6 +23,15 @@ function convert() {
     resultSpace.innerText = "Invalid input. Please enter a number.";
     return;
   }
+  var number ;
+var fraction;
+if(totalNumber.includes('.'){
+let integer= totalNumber.split('.')
+number = integer[0]
+fraction=integer[1]
+}else {
+number=totalNumber
+}
   if (first == 16) {
     HexaDecimalConversion(number);
   }
