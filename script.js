@@ -19,18 +19,19 @@ function convert() {
   const first = bases[firstOption];
   const second = bases[secondOption];
   let steps = [];
-  if (isNaN(number) && !(first == 16 || second == 16)) {
-    resultSpace.innerText = "Invalid input. Please enter a number.";
-    return;
-  }
   var number ;
 var fraction;
 if (totalNumber.includes('.')) {
     let integer = totalNumber.split('.');
     number = integer[0];
+  fraction=integer[1]
 } else {
     number = totalNumber;
 }
+  if (isNaN(number) && !(first == 16 || second == 16)) {
+    resultSpace.innerText = "Invalid input. Please enter a number.";
+    return;
+  }
   if (first == 16) {
     HexaDecimalConversion(number);
   }
