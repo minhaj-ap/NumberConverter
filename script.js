@@ -76,7 +76,7 @@ fraction= parseFloat(`0.${fraction}`)
 let count =0;
 while (fraction != parseInt(fraction)) {
 if(count===6){break}
-fractionSteps.push(`${fraction}x${second}=${fraction * second}`)
+fractionSteps.push(`${fraction}x${second}=${fraction * second} >>> ${parseInt(fraction)}`)
 fraction= fraction * second 
 parts = fraction.toString().split('.')
 fraction =parseFloat(`0.${parts[1]}`)
