@@ -4,7 +4,7 @@ function convert() {
   var digits = [];
   result = null;
   steps2 = [];
-  var number = document.getElementById("numberInput").value;
+  var totalNumber = document.getElementById("numberInput").value;
   const firstOption = document.getElementById("firstOption").value;
   const secondOption = document.getElementById("secondOption").value;
   var resultSpace = document.getElementById("result");
@@ -19,6 +19,13 @@ function convert() {
   const first = bases[firstOption];
   const second = bases[secondOption];
   let steps = [];
+  var number;
+   if (totalNumber.includes('.')) {
+    totalNumber= totalNumber.split('.')
+    number=totalNumber[0]
+  } else {
+    number =totalNumber
+   }
   if (isNaN(number) && !(first == 16 || second == 16)) {
     resultSpace.innerText = "Invalid input. Please enter a number.";
     return;
