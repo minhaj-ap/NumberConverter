@@ -4,7 +4,7 @@ function convert() {
   var digits = [];
   result = null;
   steps2 = [];
-  let fractionSteps =[]
+  let fractionSteps = [];
   var totalNumber = document.getElementById("numberInput").value;
   const firstOption = document.getElementById("firstOption").value;
   const secondOption = document.getElementById("secondOption").value;
@@ -13,7 +13,7 @@ function convert() {
   stepsSpace.innerHTML = "";
   var steps2Space = document.getElementById("steps_2");
   steps2Space.innerHTML = "";
-  let fractionResults=[]
+  let fractionResults = [];
   const bases = {
     decimal: 10,
     binary: 2,
@@ -25,18 +25,20 @@ function convert() {
   let steps = [];
   var number;
   var fraction;
-   if (totalNumber.includes('.')) {
-    totalNumber= totalNumber.split('.')
-    number=totalNumber[0]
-    fraction= totalNumber[1]
+  if (totalNumber.includes(".")) {
+    totalNumber = totalNumber.split(".");
+    number = totalNumber[0];
+    fraction = totalNumber[1];
   } else {
-    number =totalNumber
-   }
+    number = totalNumber;
+  }
   if (isNaN(number) && !(first == 16 || second == 16)) {
     resultSpace.innerText = "Invalid input. Please enter a number.";
     return;
   }
-  if(fraction){FractionToDecimal()}
+  if (fraction) {
+    FractionToDecimal();
+  }
   if (first == 16) {
     HexaDecimalConversion(number);
   }
@@ -71,20 +73,27 @@ function convert() {
       result += numbers[i];
     }
   }
-function FractionToDecimal(){
-fraction= parseFloat(`0.${fraction}`)
-let count =0;
-while (fraction != parseInt(fraction)) {
-if(count===6){break}
-fractionSteps.push(`${fraction}x${second}=${fraction * second} >>> ${parseInt(fraction * second)}`)
-fraction= fraction * second 
-parts = fraction.toString().split('.')
-fraction =parseFloat(`0.${parts[1]}`)
-fractionResults=[...fractionResults,parts[0]]
-count++
-}
-fractionResults= fractionResults.join('')
-}
+  function FractionToDecimal() {
+    fraction = parseFloat(`0.${fraction}`);
+    let count = 0;
+    while (fraction != parseInt(fraction)) {
+      if (count === 6) {
+        break;
+      }
+      fractionSteps.push(
+        `${fraction}x${second}=${fraction * second} >>> ${parseInt(
+          fraction * second
+        )}`
+      );
+      fraction = fraction * second;
+      // fraction = decimalToHex(fraction);
+      parts = fraction.toString().split(".");
+      fraction = parseFloat(`0.${parts[1]}`);
+      fractionResults = [...fractionResults, decimalToHex(parts[0])];
+      count++;
+    }
+    fractionResults = fractionResults.join("");
+  }
   steps.forEach((step) => {
     var base = document.createElement("h3");
     base.textContent = second;
@@ -108,8 +117,8 @@ fractionResults= fractionResults.join('')
     var text = document.createElement("h3");
     text.textContent = step;
     steps2Space.appendChild(text);
-  })
-  resultSpace.innerText = `Result:${result +'.'+fractionResults}`;
+  });
+  resultSpace.innerText = `Result:${result + "." + fractionResults}`;
 }
 function numberConversionToHex(digits) {
   const hexValues = {
@@ -135,6 +144,7 @@ function numberConversionToHex(digits) {
   });
   return digits.join("");
 }
+
 function HexaDecimalConversion(number) {
   const hexNumberValues = {
     0: 0,
@@ -175,4 +185,26 @@ function sortDigits(digits) {
     i--;
   }
   return digits;
+}
+function decimalToHex(number) {
+  // number in string
+  const hexValues = {
+    0: 0,
+    1: 1,
+    2: 2,
+    3: 3,
+    4: 4,
+    5: 5,
+    6: 6,
+    7: 7,
+    8: 8,
+    9: 9,
+    10: "A",
+    11: "B",
+    12: "C",
+    13: "D",
+    14: "E",
+    15: "F",
+  };
+  return hexValues[number];
 }
