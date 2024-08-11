@@ -70,6 +70,7 @@ function convert() {
 let fractionResults=[]
 
 function FractionToDecimal(){
+fraction= parseFloat(`0.${fraction}`)
 let count =0;
 while (fraction != parseInt(fraction)) {
 if(count===6){break}
