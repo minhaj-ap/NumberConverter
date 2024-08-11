@@ -10,6 +10,7 @@ function convert() {
   var resultSpace = document.getElementById("result");
   var stepsSpace = document.getElementById("steps");
   stepsSpace.innerHTML = "";
+  let fractionResults=[]
   const bases = {
     decimal: 10,
     binary: 2,
@@ -67,8 +68,6 @@ function convert() {
       result += numbers[i];
     }
   }
-let fractionResults=[]
-
 function FractionToDecimal(){
 fraction= parseFloat(`0.${fraction}`)
 let count =0;
