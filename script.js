@@ -13,7 +13,7 @@ function convert() {
   stepsSpace.innerHTML = "";
   var steps2Space = document.getElementById("steps_2");
   steps2Space.innerHTML = "";
-  let fractionResults = [];
+  let fractionResults = null;
   const bases = {
     decimal: 10,
     binary: 2,
@@ -37,7 +37,11 @@ function convert() {
     return;
   }
   if (fraction) {
-    FractionToDecimal();
+    if (first == 10) {
+      FractionToDecimal();
+    } else if (second == 10) {
+      FractionalDecimalTo();
+    }
   }
   if (first == 16) {
     HexaDecimalConversion(number);
@@ -74,6 +78,7 @@ function convert() {
     }
   }
   function FractionToDecimal() {
+    fractionResults = ["."];
     fraction = parseFloat(`0.${fraction}`);
     let count = 0;
     while (fraction != parseInt(fraction)) {
@@ -86,13 +91,23 @@ function convert() {
         )}`
       );
       fraction = fraction * second;
-      // fraction = decimalToHex(fraction);
       parts = fraction.toString().split(".");
       fraction = parseFloat(`0.${parts[1]}`);
       fractionResults = [...fractionResults, decimalToHex(parts[0])];
       count++;
     }
     fractionResults = fractionResults.join("");
+  }
+  function FractionalDecimalTo() {
+    fractionResults = 0;
+    fraction = fraction.split("");
+    for (let i = 0; i < fraction.length; i++) {
+      fraction[i] = hexToDecimal(fraction[i]);
+      fractionResults += fraction[i] * first ** -(i + 1);
+      fractionSteps.push(
+        `${fraction[i]}x${first}^-${i + 1}=${fraction[i] * first ** -(i + 1)}`
+      );
+    }
   }
   steps.forEach((step) => {
     var base = document.createElement("h3");
@@ -118,7 +133,7 @@ function convert() {
     text.textContent = step;
     steps2Space.appendChild(text);
   });
-  resultSpace.innerText = `Result:${result + "." + fractionResults}`;
+  resultSpace.innerText = `Result:${result + fractionResults}`;
 }
 function numberConversionToHex(digits) {
   const hexValues = {
@@ -205,6 +220,27 @@ function decimalToHex(number) {
     13: "D",
     14: "E",
     15: "F",
+  };
+  return hexValues[number];
+}
+function hexToDecimal(number) {
+  const hexValues = {
+    0: 0,
+    1: 1,
+    2: 2,
+    3: 3,
+    4: 4,
+    5: 5,
+    6: 6,
+    7: 7,
+    8: 8,
+    9: 9,
+    A: 10,
+    B: 11,
+    C: 12,
+    D: 13,
+    E: 14,
+    F: 15,
   };
   return hexValues[number];
 }
