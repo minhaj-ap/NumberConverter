@@ -100,7 +100,7 @@ fractionResults= fractionResults.join('')
     text.textContent = step;
     stepsSpace.appendChild(text);
   });
-  resultSpace.innerText = `Result:${result}`;
+  resultSpace.innerText = `Result:${result +'.'+fractionResults}`;
 }
 function numberConversionToHex(digits) {
   const hexValues = {
