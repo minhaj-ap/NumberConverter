@@ -4,12 +4,15 @@ function convert() {
   var digits = [];
   result = null;
   steps2 = [];
+  let fractionSteps =[]
   var totalNumber = document.getElementById("numberInput").value;
   const firstOption = document.getElementById("firstOption").value;
   const secondOption = document.getElementById("secondOption").value;
   var resultSpace = document.getElementById("result");
   var stepsSpace = document.getElementById("steps");
   stepsSpace.innerHTML = "";
+  var steps2Space = document.getElementById("steps_2");
+  steps2Space.innerHTML = "";
   let fractionResults=[]
   const bases = {
     decimal: 10,
@@ -73,6 +76,7 @@ fraction= parseFloat(`0.${fraction}`)
 let count =0;
 while (fraction != parseInt(fraction)) {
 if(count===6){break}
+fractionSteps.push(`${fraction}x${second}=${fraction * second}`)
 fraction= fraction * second 
 parts = fraction.toString().split('.')
 fraction =parseFloat(`0.${parts[1]}`)
@@ -100,6 +104,11 @@ fractionResults= fractionResults.join('')
     text.textContent = step;
     stepsSpace.appendChild(text);
   });
+  fractionSteps.forEach((step) => {
+    var text = document.createElement("h3");
+    text.textContent = step;
+    steps2Space.appendChild(text);
+  })
   resultSpace.innerText = `Result:${result +'.'+fractionResults}`;
 }
 function numberConversionToHex(digits) {
