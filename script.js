@@ -20,9 +20,11 @@ function convert() {
   const second = bases[secondOption];
   let steps = [];
   var number;
+  var fraction;
    if (totalNumber.includes('.')) {
     totalNumber= totalNumber.split('.')
     number=totalNumber[0]
+    fraction= totalNumber[1]
   } else {
     number =totalNumber
    }
@@ -30,6 +32,7 @@ function convert() {
     resultSpace.innerText = "Invalid input. Please enter a number.";
     return;
   }
+  if(fraction){FractionToDecimal()}
   if (first == 16) {
     HexaDecimalConversion(number);
   }
@@ -64,7 +67,20 @@ function convert() {
       result += numbers[i];
     }
   }
+let fractionResults=[]
 
+function FractionToDecimal(){
+let count =0;
+while (fraction != parseInt(fraction)) {
+if(count===6){break}
+fraction= fraction * second 
+parts = fraction.toString().split('.')
+fraction =parseFloat(`0.${parts[1]}`)
+fractionResults=[...results,parts[0]]
+count++
+}
+fractionResults= fractionResults.join('')
+}
   steps.forEach((step) => {
     var base = document.createElement("h3");
     base.textContent = second;
