@@ -77,7 +77,7 @@ if(count===6){break}
 fraction= fraction * second 
 parts = fraction.toString().split('.')
 fraction =parseFloat(`0.${parts[1]}`)
-fractionResults=[...results,parts[0]]
+fractionResults=[...fractionResults,parts[0]]
 count++
 }
 fractionResults= fractionResults.join('')
