@@ -17,8 +17,8 @@ function convert() {
   steps = [];
   steps2 = [];
   fractionSteps = [];
-  number=0;
-  fraction=0;
+  number = 0;
+  fraction = 0;
   var totalNumber = document.getElementById("numberInput").value;
   const firstOption = document.getElementById("firstOption").value;
   const secondOption = document.getElementById("secondOption").value;
@@ -27,7 +27,7 @@ function convert() {
   var steps2Space = document.getElementById("steps_2");
   stepsSpace.innerHTML = "";
   steps2Space.innerHTML = "";
-  if (totalNumber=="") return
+  if (totalNumber == "") return;
   const first = bases[firstOption];
   const second = bases[secondOption];
   numberDivider(totalNumber);
@@ -35,63 +35,83 @@ function convert() {
     resultSpace.innerText = "Invalid input. Please enter a number.";
     return;
   }
-  if (first == 10) {
+  if (first == second) {
+    result = totalNumber;
+  } else if (first == 10) {
     result = ConvertFromDecimal(totalNumber, second);
   } else if (second == 10) {
     result = ConvertToDecimal(totalNumber, first);
+  } else {
+    let firstResult = ConvertToDecimal(totalNumber, first, false);
+    let secondResult = ConvertFromDecimal(
+      firstResult.toString(),
+      second,
+      false
+    );
+    result = secondResult;
   }
   htmlThings(stepsSpace, steps2Space, second);
   resultSpace.innerText = `Result:${result}`;
 }
-function ConvertFromDecimal(totalNumber, second) {
+function ConvertFromDecimal(totalNumber, second, stepsNeed = true) {
   numberDivider(totalNumber);
   var fractionResults = null;
   if (fraction) {
-    fractionResults = FractionToDecimal(fraction, second);
+    fractionResults = FractionToDecimal(fraction, second, stepsNeed);
   }
   while (number >= second) {
     var quotient = number % second;
-    steps.push([number, quotient]);
+    {
+      stepsNeed && steps.push([number, quotient]);
+    }
     number = parseInt(number / second);
     digits = [...digits, decimalToHex(quotient)];
   }
   if (number < second) {
-    steps.push([number]);
+    {
+      stepsNeed && steps.push([number]);
+    }
     digits = [...digits, decimalToHex(number)];
   }
   digits = sortDigits(digits);
-  return parseInt(digits.join("")) + fractionResults;
+  return digits.join("") + fractionResults;
 }
-function ConvertToDecimal(totalNumber, first) {
+function ConvertToDecimal(totalNumber, first, stepsNeed = true) {
   numberDivider(totalNumber);
   var fractionResults = null;
   if (fraction) {
-    fractionResults = FractionFromDecimal(fraction, first);
+    fractionResults = FractionFromDecimal(fraction, first, stepsNeed);
   }
   number = number.split("");
   let numbers = sortDigits(number);
   let sum = 0;
   for (let i = 0; i < numbers.length; i++) {
     numbers[i] = hexToDecimal(numbers[i]);
-    steps2.push(`${numbers[i]}x${first}^${i}=${numbers[i] * first ** i}`);
+    {
+      stepsNeed &&
+        steps2.push(`${numbers[i]}x${first}^${i}=${numbers[i] * first ** i}`);
+    }
     numbers[i] = numbers[i] * first ** i;
     sum += numbers[i];
   }
-  return sum+fractionResults;
+  return sum + fractionResults;
 }
-function FractionFromDecimal(fraction, first) {
+function FractionFromDecimal(fraction, first, stepsNeed) {
   fraction = fraction.split("");
   let sum = 0;
   for (let i = 0; i < fraction.length; i++) {
     fraction[i] = hexToDecimal(fraction[i]);
     sum += fraction[i] * first ** -(i + 1);
-    fractionSteps.push(
-      `${fraction[i]}x${first}^-${i + 1}=${fraction[i] * first ** -(i + 1)}`
-    );
+    {
+      stepsNeed &&
+        fractionSteps.push(
+          `${fraction[i]}x${first}^-${i + 1}=${fraction[i] * first ** -(i + 1)}`
+        );
+    }
   }
   return sum;
 }
-function FractionToDecimal(fraction, second) {
+function FractionToDecimal(fraction, second, stepsNeed) {
   let fractionResults = ["."];
   fraction = parseFloat(`0.${fraction}`);
   let count = 0;
@@ -99,11 +119,14 @@ function FractionToDecimal(fraction, second) {
     if (count === 6) {
       break;
     }
-    fractionSteps.push(
-      `${fraction}x${second}=${fraction * second} >>> ${parseInt(
-        fraction * second
-      )}`
-    );
+    {
+      stepsNeed &&
+        fractionSteps.push(
+          `${fraction}x${second}=${fraction * second} >>> ${parseInt(
+            fraction * second
+          )}`
+        );
+    }
     fraction = fraction * second;
     parts = fraction.toString().split(".");
     fraction = parseFloat(`0.${parts[1]}`);

@@ -53,6 +53,11 @@ button {
   border: 2px solid;
   border-top: 0;
   border-right: 0;
+  padding-right: 2em;
+}
+#steps div:last-child p{
+  border: 0;
+  margin-left: 2em;
 }
 #steps_2{
   margin-top: 1em;
