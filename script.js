@@ -74,7 +74,7 @@ function ConvertFromDecimal(totalNumber, second, stepsNeed = true) {
     digits = [...digits, decimalToHex(number)];
   }
   digits = sortDigits(digits);
-  return digits.join("") + fractionResults;
+  return digits.join("") + (fractionResults||"");
 }
 function ConvertToDecimal(totalNumber, first, stepsNeed = true) {
   numberDivider(totalNumber);
@@ -94,7 +94,7 @@ function ConvertToDecimal(totalNumber, first, stepsNeed = true) {
     numbers[i] = numbers[i] * first ** i;
     sum += numbers[i];
   }
-  return sum + fractionResults;
+  return sum + (fractionResults || 0);
 }
 function FractionFromDecimal(fraction, first, stepsNeed) {
   fraction = fraction.split("");
