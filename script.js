@@ -5,7 +5,6 @@ const bases = {
   hexadecimal: 16,
 };
 var result;
-let fractionResults = null;
 var digits = [];
 let steps2 = [];
 let steps = [];
@@ -18,6 +17,8 @@ function convert() {
   steps = [];
   steps2 = [];
   fractionSteps = [];
+  number=0;
+  fraction=0;
   var totalNumber = document.getElementById("numberInput").value;
   const firstOption = document.getElementById("firstOption").value;
   const secondOption = document.getElementById("secondOption").value;
@@ -26,35 +27,28 @@ function convert() {
   var steps2Space = document.getElementById("steps_2");
   stepsSpace.innerHTML = "";
   steps2Space.innerHTML = "";
+  if (totalNumber=="") return
   const first = bases[firstOption];
   const second = bases[secondOption];
-  if (totalNumber.includes(".")) {
-    totalNumber = totalNumber.split(".");
-    number = totalNumber[0];
-    fraction = totalNumber[1];
-  } else {
-    number = totalNumber;
-  }
+  numberDivider(totalNumber);
   if (isNaN(number) && !(first == 16 || second == 16)) {
     resultSpace.innerText = "Invalid input. Please enter a number.";
     return;
   }
-  if (fraction) {
-    if (first == 10) {
-      FractionToDecimal(fraction, second);
-    } else if (second == 10) {
-      FractionFromDecimal(fraction, first);
-    }
-  }
   if (first == 10) {
-    ConvertFromDecimal(number, second);
+    result = ConvertFromDecimal(totalNumber, second);
   } else if (second == 10) {
-    ConvertToDecimal(number, first);
+    result = ConvertToDecimal(totalNumber, first);
   }
   htmlThings(stepsSpace, steps2Space, second);
-  resultSpace.innerText = `Result:${result + fractionResults}`;
+  resultSpace.innerText = `Result:${result}`;
 }
-function ConvertFromDecimal(number, second) {
+function ConvertFromDecimal(totalNumber, second) {
+  numberDivider(totalNumber);
+  var fractionResults = null;
+  if (fraction) {
+    fractionResults = FractionToDecimal(fraction, second);
+  }
   while (number >= second) {
     var quotient = number % second;
     steps.push([number, quotient]);
@@ -66,32 +60,39 @@ function ConvertFromDecimal(number, second) {
     digits = [...digits, decimalToHex(number)];
   }
   digits = sortDigits(digits);
-  result = digits.join("");
+  return parseInt(digits.join("")) + fractionResults;
 }
-function ConvertToDecimal(number, first) {
+function ConvertToDecimal(totalNumber, first) {
+  numberDivider(totalNumber);
+  var fractionResults = null;
+  if (fraction) {
+    fractionResults = FractionFromDecimal(fraction, first);
+  }
   number = number.split("");
   let numbers = sortDigits(number);
-  result = 0;
+  let sum = 0;
   for (let i = 0; i < numbers.length; i++) {
     numbers[i] = hexToDecimal(numbers[i]);
     steps2.push(`${numbers[i]}x${first}^${i}=${numbers[i] * first ** i}`);
     numbers[i] = numbers[i] * first ** i;
-    result += numbers[i];
+    sum += numbers[i];
   }
+  return sum+fractionResults;
 }
 function FractionFromDecimal(fraction, first) {
-  fractionResults = 0;
   fraction = fraction.split("");
+  let sum = 0;
   for (let i = 0; i < fraction.length; i++) {
     fraction[i] = hexToDecimal(fraction[i]);
-    fractionResults += fraction[i] * first ** -(i + 1);
+    sum += fraction[i] * first ** -(i + 1);
     fractionSteps.push(
       `${fraction[i]}x${first}^-${i + 1}=${fraction[i] * first ** -(i + 1)}`
     );
   }
+  return sum;
 }
 function FractionToDecimal(fraction, second) {
-  fractionResults = ["."];
+  let fractionResults = ["."];
   fraction = parseFloat(`0.${fraction}`);
   let count = 0;
   while (fraction != parseInt(fraction)) {
@@ -109,7 +110,7 @@ function FractionToDecimal(fraction, second) {
     fractionResults = [...fractionResults, decimalToHex(parts[0])];
     count++;
   }
-  fractionResults = fractionResults.join("");
+  return fractionResults.join("");
 }
 function sortDigits(digits) {
   let i = digits.length;
@@ -189,4 +190,13 @@ function htmlThings(stepsSpace, steps2Space, second) {
     text.textContent = step;
     steps2Space.appendChild(text);
   });
+}
+function numberDivider(totalNumber) {
+  if (totalNumber.includes(".")) {
+    totalNumber = totalNumber.split(".");
+    number = totalNumber[0];
+    fraction = totalNumber[1];
+  } else {
+    number = totalNumber;
+  }
 }
